@@ -1,0 +1,28 @@
+import numpy as np
+import clipboard as cl
+import datetime as dt
+import ui
+import urllib.parse #url文字コード化用
+import console #アラート用
+from objc_util import UIApplication, nsurl # アプリ起動用
+import webbrowser #ショートカット起動用
+
+name = 0 # 名前判定
+ans = 1 # 回答0yes or 1no
+food = 2 # 好きな食べ物
+people = 3 # 好きな人
+play = 4 # 遊び
+
+word = cl.get() # ,separates str from shortcut
+wordarr = word.split(',') #リスト化
+print(wordarr) #checking
+if wordarr[0] == 0:
+	wordarr[0] = 'お名前教えてください'
+	cl.set(','.join(word))
+# 質問をランダムで出す。回答履歴と質問はクリップボードでやりとり
+question = 'あいう' #test
+wordarr.append(question)
+word = ','.join(wordarr) #,区切りに変換
+cl.set(word)
+print(word) #checking
+webbrowser.open('shortcuts://x-callback-url/run-shortcut?name=test') #shortcutname is test

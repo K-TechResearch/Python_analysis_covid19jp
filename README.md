@@ -1,4 +1,4 @@
-# Python-analysis-for-something
+# Python_analysis_covid19jp
 新型コロナの状況分析をPythonで行う
 
 # 目的

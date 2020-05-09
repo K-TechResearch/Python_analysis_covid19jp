@@ -28,28 +28,33 @@ summary_diff7 = summary.diff(7) #7日差分データ
 #datetime型のindex追加
 summary['yymmdd'] = summary['年'].astype(str) + '-' + summary['月'].astype(str) + '-' + summary['日'].astype(str)
 summary['yymmdd'] = pd.to_datetime(summary['yymmdd'])
-#summary = summary.set_index('yymmdd')
-summary_diff['yymmdd'] = summary['yymmdd']
-summary_diff3['yymmdd'] = summary['yymmdd']
-summary_diff7['yymmdd'] = summary['yymmdd']
+summary = summary.set_index('yymmdd')
+summary_diff['yymmdd'] = summary.index
+summary_diff = summary_diff.set_index('yymmdd')
+summary_diff3['yymmdd'] = summary.index
+summary_diff3 = summary_diff3.set_index('yymmdd')
+summary_diff7['yymmdd'] = summary.index
+summary_diff7 = summary_diff7.set_index('yymmdd')
 
 #列のインデックス(行は年月日)
 #年,月,日,PCR検査陽性者,PCR検査実施人数,有症状者,無症状者,症状有無確認中,入院治療を要する者,入院治療を要する者（無症状）,退院者,退院者（突合作業中を含む）,人工呼吸器又は集中治療室に入院している者,死亡者,死亡者（突合作業中を含む）,PCR検査数：国立感染症研究所,PCR検査数：検疫所,PCR検査数：地方衛生研究所・保健所,PCR検査数：民間検査会社,PCR検査数：民間検査会社のうち保険適用分,PCR検査数：大学等,PCR検査数：大学等のうち保険適用分,PCR検査数：医療機関,PCR検査数：医療機関のうち保険適用分,PCR検査数：合計,PCR検査数：保険適用分の合計,URL
 
 #解析用dataframe作成
-plt.figure() #plot initializing
+fig = plt.figure() #plot initializing
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(9, 6)) #plot area
 #陽性/PCR人数 1日差分だと誤差大のため7日平均で確認
 #summary_diff['yosei/PCR_day'] = summary_diff['PCR検査陽性者'] / summary_diff['PCR検査実施人数']
 #summary_diff.plot(x = 'yymmdd', y = 'yosei/PCR_day' , kind='line')
 #summary_diff3['yosei/PCR_3day'] = summary_diff3['PCR検査陽性者'] / summary_diff3['PCR検査実施人数']
 #summary_diff3.plot(x = 'yymmdd', y = 'yosei/PCR_3day' , kind='line')
 summary_diff7['yosei/PCR_7day'] = summary_diff7['PCR検査陽性者'] / summary_diff7['PCR検査実施人数']
-summary_diff7.plot(x = 'yymmdd', y = 'yosei/PCR_7day' , kind='line')
-
+summary_diff7['yosei/PCR_N_7day'] = summary_diff7['PCR検査陽性者'] / summary_diff7['PCR検査数：合計']
+summary_diff7[['yosei/PCR_7day','yosei/PCR_N_7day']].plot(ax = axes[0,0] , kind = 'line' , grid=True , legend =True)
+#PCR人数と回数
+summary_diff7[['PCR検査実施人数','PCR検査数：合計']].plot(ax = axes[1,0] , kind = 'line' , grid=True , legend =True)
 #重症病床率＝重病/(入院-退院-死亡)
 summary_diff['jusho/nyuin_all_now'] = summary['人工呼吸器又は集中治療室に入院している者'] / (summary['入院治療を要する者'] - summary['退院者'] - summary['死亡者'])
-summary_diff.plot(x = 'yymmdd', y = 'jusho/nyuin_all_now' , kind='line')
-
+summary_diff['jusho/nyuin_all_now'].plot(ax = axes[0,1] ,kind='line',grid=True , legend =True)
 plt.show()
 #参考；大阪独自基準0感染者先週比1.0以下・1感染経路不明10人未満・2陽性率7％未満・3重度病床使用率60％未満
 #0陽性/PCR人数・1検査数/検査人数・2重症/(入院-退院-死亡)

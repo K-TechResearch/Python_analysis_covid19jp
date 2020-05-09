@@ -4,12 +4,25 @@
 # 目的
 自分用に作成しておりますので，ご要望には自分の利害と一致した場合のみお応えします。
 
-# アップロードデータ
+# フォルダ構成
+- root
+  - readme等
+- python
+  - メインのソースコード
+- data
+  - pythonプログラムから生成されるデータの置き場
+- check
+  - 2020/5/5時点のcsv置き場。時々データを表形式で確認したい時があるため。
+
+# Pythonバージョン
 – python3.7.3
-- ライブラリヴァージョン
-  - 随時追記
+- ライブラリバージョン
+  - pandas 0.23.4
+  - matplotlib 2.2.3
+  - numpy 1.15.1
 
 # データソース
+Python内で以下データをインポートしています。インポート時に#copyright TOYO KEIZAI ONLINE を記載。
 - https://github.com/kaz-ogiwara/covid19
   - MITライセンス。公開されているcsvを利用。そのCSV参照元は厚労省。
 

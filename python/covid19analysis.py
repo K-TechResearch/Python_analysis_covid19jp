@@ -17,6 +17,19 @@ index_list = list(obj_pick.columns)
 #抽出した列を数値に変換し数値以外はNan
 for i in index_list:
     summary[i] = pd.to_numeric(summary[i] , errors = 'coerce')
+#prefecturs達も処理するが都道府県はそのまま
+obj_pick = prefectures.select_dtypes(include=object)
+index_list = list(obj_pick.columns)
+for i in index_list:
+    if i != '都道府県':
+        prefectures[i] = pd.to_numeric(prefectures[i] , errors = 'coerce')
+obj_pick = prefectures2.select_dtypes(include=object)
+index_list = list(obj_pick.columns)
+for i in index_list:
+    if i != '都道府県':
+        prefectures2[i] = pd.to_numeric(prefectures2[i] , errors = 'coerce')
+
+'''
 #check用コメントアウト
 #print(summary.dtypes)
 #print(summary.isnull().any())
@@ -57,3 +70,4 @@ summary_diff7[['pcr_tested','pcr_tests_total']].plot(ax = axes[1,0] , kind = 'li
 plt.show()
 #参考；大阪独自基準0感染者先週比1.0以下・1感染経路不明10人未満・2陽性率7％未満・3重度病床使用率60％未満
 #0陽性/PCR人数・1検査数/検査人数・2重症/(入院-退院-死亡)
+'''

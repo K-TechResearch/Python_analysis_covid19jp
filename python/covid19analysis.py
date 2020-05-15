@@ -1,16 +1,16 @@
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import csv
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 #githubからcsv取得
-summary = pd.read_csv('https://github.com/kaz-ogiwara/covid19/raw/master/data/summary.csv') #copyright TOYO KEIZAI ONLINE
-prefectures = pd.read_csv('https://github.com/kaz-ogiwara/covid19/raw/master/data/prefectures.csv') #copyright TOYO KEIZAI ONLINE
-prefectures2 = pd.read_csv('https://github.com/kaz-ogiwara/covid19/raw/master/data/prefectures-2.csv') #copyright TOYO KEIZAI ONLINE
+summary = np.genfromtxt('https://github.com/kaz-ogiwara/covid19/raw/master/data/summary.csv',delimiter=',') #copyright TOYO KEIZAI ONLINE
+prefectures = np.genfromtxt('https://github.com/kaz-ogiwara/covid19/raw/master/data/prefectures.csv',delimiter=',',names=True, dtype=None) #copyright TOYO KEIZAI ONLINE
+#prefectures2 = np.genfromtxt('https://github.com/kaz-ogiwara/covid19/raw/master/data/prefectures-2.csv',delimiter=',',names=True, dtype=None) #copyright TOYO KEIZAI ONLINE
 #demography = pd.read_csv('https://github.com/kaz-ogiwara/covid19/raw/master/data/demography.csv') #copyright TOYO KEIZAI ONLINE
 csv_name = ['summary','prefecture','prefecture2']
-
+print(prefectures.name)
 #diff時のエラー処理のため文字列の列を抽出しリスト化
 obj_pick = summary.select_dtypes(include=object)
 index_list = list(obj_pick.columns)
@@ -101,4 +101,3 @@ osaka2_diff7[['osaka_yosei/PCR_7d']].plot(ax = axes[0,1] , kind = 'line' , grid=
 aichi2_diff7[['aichi_yosei/PCR_7d']].plot(ax = axes[0,1] , kind = 'line' , grid=True , legend =True)
 plt.show()
 #参考；大阪独自基準0感染者先週比1.0以下・1感染経路不明10人未満・2陽性率7％未満・3重度病床使用率60％未満
-#0陽性/PCR人数・1検査数/検査人数・2重症/(入院-退院-死亡)
